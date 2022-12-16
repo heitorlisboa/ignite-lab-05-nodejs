@@ -3,6 +3,7 @@
 
 # SQLite database
 *.db
+*.db-journal
 
 # Compiled output
 /dist

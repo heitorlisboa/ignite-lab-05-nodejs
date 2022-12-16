@@ -7,7 +7,7 @@ type NotificationProps = z.infer<typeof notificationPropsSchema>;
 
 type NotificationConstructorProps = PartialKeys<
   NotificationProps,
-  'readAt' | 'createdAt'
+  'readAt' | 'canceledAt' | 'createdAt'
 >;
 
 const notificationPropsSchema = z.object({
@@ -15,6 +15,7 @@ const notificationPropsSchema = z.object({
   content: z.string().min(5).max(256),
   category: z.string().min(1),
   readAt: z.date().nullable(),
+  canceledAt: z.date().nullable(),
   createdAt: z.date(),
 });
 
@@ -26,9 +27,21 @@ export class Notification {
     const propsToParse: NotificationProps = {
       ...props,
       readAt: props.readAt ?? null,
+      canceledAt: props.canceledAt ?? null,
       createdAt: props.createdAt ?? new Date(),
     };
     this.props = notificationPropsSchema.parse(propsToParse);
+  }
+
+  public updateProps(props: Partial<NotificationProps>) {
+    this.props = {
+      ...this.props,
+      ...notificationPropsSchema.partial().parse(props),
+    };
+  }
+
+  public cancel() {
+    this.props.canceledAt = new Date();
   }
 
   get id() {
@@ -45,6 +58,9 @@ export class Notification {
   }
   get readAt() {
     return this.props.readAt;
+  }
+  get canceledAt() {
+    return this.props.canceledAt;
   }
   get createdAt() {
     return this.props.createdAt;

@@ -9,6 +9,13 @@ import { NotificationMapper } from '@/shared/mappers/notification-mapper';
 export class PrismaNotificationsRepository implements NotificationsRepository {
   constructor(private prismaService: PrismaService) {}
 
+  async findById(id: string): Promise<Notification | null> {
+    const raw = await this.prismaService.notification.findUnique({
+      where: { id },
+    });
+    return raw ? new Notification(raw) : null;
+  }
+
   async findMany(): Promise<Notification[]> {
     return (await this.prismaService.notification.findMany()).map(
       (notification) => new Notification(notification)
@@ -16,6 +23,15 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
   }
   async create(notification: Notification): Promise<void> {
     this.prismaService.notification.create({
+      data: NotificationMapper.format(notification),
+    });
+  }
+
+  async update(notification: Notification): Promise<void> {
+    this.prismaService.notification.update({
+      where: {
+        id: notification.id,
+      },
       data: NotificationMapper.format(notification),
     });
   }
