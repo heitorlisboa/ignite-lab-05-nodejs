@@ -43,6 +43,14 @@ export class Notification {
     };
   }
 
+  public markAsRead() {
+    this.props.readAt = new Date();
+  }
+
+  public markAsUnread() {
+    this.props.readAt = null;
+  }
+
   public cancel() {
     this.props.canceledAt = new Date();
   }
