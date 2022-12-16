@@ -25,4 +25,11 @@ export class InMemoryNotificationsRepository
     const foundNotification = await this.findById(notification.id);
     foundNotification?.updateProps(NotificationMapper.format(notification));
   }
+
+  async countByRecipientId(recipientId: string): Promise<number> {
+    const recipientNotifications = this.notifications.filter(
+      (notification) => notification.recipientId === recipientId
+    );
+    return recipientNotifications.length;
+  }
 }

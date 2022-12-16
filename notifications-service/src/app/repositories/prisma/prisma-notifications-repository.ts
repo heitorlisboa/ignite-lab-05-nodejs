@@ -35,4 +35,10 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
       data: NotificationMapper.format(notification),
     });
   }
+
+  async countByRecipientId(recipientId: string): Promise<number> {
+    return await this.prismaService.notification.count({
+      where: { recipientId },
+    });
+  }
 }
