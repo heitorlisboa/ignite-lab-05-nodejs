@@ -2,6 +2,7 @@ import { randomUUID } from 'node:crypto';
 
 import { InMemoryNotificationsRepository } from '../repositories/in-memory/in-memory-notifications-repository';
 import { SendNotification } from './send-notification';
+import { NotificationMapper } from '@/shared/mappers/notification-mapper';
 
 let notificationsRepository: InMemoryNotificationsRepository;
 let sendNotification: SendNotification;
@@ -20,8 +21,11 @@ describe('Send notification', () => {
     });
 
     const allNotifications = await notificationsRepository.findMany();
+    const notificationFromRepository = NotificationMapper.formatToView(
+      allNotifications[0]
+    );
 
     expect(allNotifications).toHaveLength(1);
-    expect(allNotifications[0]).toMatchObject(notification);
+    expect(notificationFromRepository).toMatchObject(notification);
   });
 });

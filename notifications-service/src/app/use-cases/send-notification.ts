@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import { Notification } from '../models/notification';
 import { NotificationsRepository } from '../repositories/notifications-repository';
+import { NotificationMapper } from '@/shared/mappers/notification-mapper';
+import type { NotificationView } from '@/shared/types/notification';
 
 type SendNotificationRequest = {
   recipientId: string;
@@ -10,7 +12,7 @@ type SendNotificationRequest = {
 };
 
 type SendNotificationResponse = {
-  notification: Notification;
+  notification: NotificationView;
 };
 
 @Injectable()
@@ -26,6 +28,6 @@ export class SendNotification {
 
     await this.notificationsRepository.create(notification);
 
-    return { notification };
+    return { notification: NotificationMapper.formatToView(notification) };
   }
 }
