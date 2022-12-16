@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { z } from 'zod';
 
-import type { PartialKeys } from 'src/shared/types/utility';
+import type { PartialKeys } from '@/shared/types/utility';
 
 type NotificationProps = z.infer<typeof notificationPropsSchema>;
 
