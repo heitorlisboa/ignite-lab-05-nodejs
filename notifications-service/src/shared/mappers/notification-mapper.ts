@@ -8,6 +8,7 @@ export const NotificationMapper = {
       content: notification.content,
       category: notification.category,
       readAt: notification.readAt,
+      canceledAt: notification.canceledAt,
       createdAt: notification.createdAt,
     };
   },
@@ -19,6 +20,7 @@ export const NotificationMapper = {
       content: notification.content,
       category: notification.category,
       readAt: notification.readAt,
+      canceledAt: notification.canceledAt,
     };
   },
 };
