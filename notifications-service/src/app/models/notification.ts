@@ -8,7 +8,9 @@ type NotificationProps = z.infer<typeof notificationPropsSchema>;
 type NotificationConstructorProps = PartialKeys<
   NotificationProps,
   'readAt' | 'canceledAt' | 'createdAt'
->;
+> & {
+  id?: string;
+};
 
 const notificationPropsSchema = z.object({
   recipientId: z.string().uuid(),
@@ -20,10 +22,11 @@ const notificationPropsSchema = z.object({
 });
 
 export class Notification {
-  private _id: string = randomUUID();
+  private _id: string;
   private props: NotificationProps;
 
-  constructor(props: NotificationConstructorProps) {
+  constructor({ id, ...props }: NotificationConstructorProps) {
+    this._id = id ? z.string().uuid().parse(id) : randomUUID();
     const propsToParse: NotificationProps = {
       ...props,
       readAt: props.readAt ?? null,
