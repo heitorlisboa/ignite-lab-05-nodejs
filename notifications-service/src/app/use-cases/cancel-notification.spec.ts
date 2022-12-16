@@ -8,7 +8,7 @@ import { NotificationNotFoundError } from './errors/notification-not-found-error
 let notificationsRepository: InMemoryNotificationsRepository;
 let cancelNotification: CancelNotification;
 
-describe('Send notification', () => {
+describe('Cancel notification', () => {
   beforeEach(() => {
     notificationsRepository = new InMemoryNotificationsRepository();
     cancelNotification = new CancelNotification(notificationsRepository);
@@ -32,7 +32,7 @@ describe('Send notification', () => {
     expect(updatedNotification.canceledAt).toEqual(expect.any(Date));
   });
 
-  it('should be not able to cancel a nonexistent notification', async () => {
+  it('should not be able to cancel a nonexistent notification', async () => {
     const action = async () => {
       // Canceling the notification without creating it first
       await cancelNotification.execute({ notificationId: randomUUID() });
