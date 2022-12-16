@@ -31,13 +31,13 @@ export class PrismaNotificationsRepository implements NotificationsRepository {
   }
 
   async create(notification: Notification): Promise<void> {
-    this.prismaService.notification.create({
+    await this.prismaService.notification.create({
       data: NotificationMapper.format(notification),
     });
   }
 
   async update(notification: Notification): Promise<void> {
-    this.prismaService.notification.update({
+    await this.prismaService.notification.update({
       where: {
         id: notification.id,
       },
